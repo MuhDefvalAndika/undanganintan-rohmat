@@ -55,8 +55,11 @@ section{padding:72px 24px;text-align:center;position:relative}
 /* slideshow hero */
 #hero{padding:0;min-height:100vh;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
 .slides{position:absolute;inset:0}
-.slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.4s ease}
-.slides img.on{opacity:1}
+.slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1);transition:opacity 1.4s ease,transform 0s 1.4s}
+.slides img:nth-child(even){transform-origin:30% 40%}
+.slides img:nth-child(3n){transform-origin:70% 60%}
+.slides img.on{opacity:1;transform:scale(1.14);transition:opacity 1.4s ease,transform 7s linear}
+@media (prefers-reduced-motion:reduce){.slides img.on{transform:none}}
 #hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(31,44,33,.25),rgba(31,44,33,.9) 85%)}
 #hero .txt{position:relative;z-index:2;padding:0 24px 70px}
 #hero .eyebrow{font-family:'Marcellus',serif;font-variant:small-caps;text-transform:none;letter-spacing:.14em;font-size:.95rem;color:#fff;margin-bottom:2px}
@@ -80,6 +83,10 @@ section{padding:72px 24px;text-align:center;position:relative}
 .socials a:hover{background:rgba(255,255,255,.1)}
 .amp{font-family:'Marcellus',serif;font-size:1.8rem;color:var(--sage-light)}
 
+/* turut mengundang */
+.invite-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.invite-list li{font-size:.98rem}
+
 /* events */
 .event{margin:26px 0}
 .event .ph{display:block;width:100%;aspect-ratio:16/10;border:1px solid var(--sage);border-radius:14px;margin-bottom:16px}
@@ -99,7 +106,17 @@ section{padding:72px 24px;text-align:center;position:relative}
 .gallery img:hover{transform:scale(1.04)}
 #lightbox{position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
 #lightbox.show{display:flex}
-#lightbox img{max-height:90vh;max-width:100%;border-radius:6px}
+#lightbox img{max-height:86vh;max-width:100%;border-radius:6px;user-select:none;-webkit-user-drag:none;transition:opacity .2s ease,transform .25s ease}
+#lightbox .lb-btn{position:absolute;background:rgba(31,44,33,.7);border:1px solid var(--sage);color:var(--cream);width:44px;height:44px;border-radius:50%;font-size:1.4rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+#lightbox .lb-btn:hover{background:rgba(255,255,255,.15)}
+#lightbox #lbPrev{left:12px;top:50%;transform:translateY(-50%)}
+#lightbox #lbNext{right:12px;top:50%;transform:translateY(-50%)}
+#lightbox #lbClose{right:14px;top:calc(14px + env(safe-area-inset-top))}
+#lightbox #lbCount{position:absolute;bottom:calc(18px + env(safe-area-inset-bottom));left:0;right:0;text-align:center;font-family:'Nunito',sans-serif;font-size:.8rem;letter-spacing:.15em;color:var(--sage-light)}
+@media (max-width:600px){#lightbox #lbPrev,#lightbox #lbNext{display:none}}
+
+/* daun jatuh */
+#leaves{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:40}
 
 /* gift */
 .bank{background:linear-gradient(135deg,var(--moss-mid),var(--moss-dark));border:1px solid var(--sage);border-radius:14px;padding:22px;margin:16px 0;text-align:left}
@@ -117,6 +134,8 @@ textarea{min-height:90px;resize:vertical}
 
 footer{padding:50px 24px 120px;text-align:center;background:var(--moss-dark);font-size:.9rem}
 footer .names{font-family:'Marcellus',serif;font-size:1.6rem;color:#fff;line-height:1.3;margin:10px 0}
+.credit{margin-top:36px;padding-top:16px;border-top:1px solid rgba(155,173,140,.3);font-size:.75rem;line-height:1.7;opacity:.75}
+.credit a{color:var(--sage-light)}
 
 nav{position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(31,44,33,.97);border-top:1px solid var(--sage);display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .5s}
 nav.show{transform:none}
@@ -214,8 +233,17 @@ nav a svg{display:block;margin:0 auto 2px}
   </div>
 </section>
 
+<!-- TURUT MENGUNDANG -->
+<section id="turut" class="bg-b">
+  <div class="wrap">
+    <h2 class="title rv">Turut Mengundang</h2>
+    <svg class="leaf rv"><use href="#leaf"/></svg>
+    <ul class="invite-list rv" id="turutList"></ul>
+  </div>
+</section>
+
 <!-- ACARA -->
-<section id="acara" class="bg-b">
+<section id="acara" class="bg-a">
   <div class="wrap">
     <h2 class="title rv">Detail Acara</h2>
     <svg class="leaf rv"><use href="#leaf"/></svg>
@@ -224,7 +252,7 @@ nav a svg{display:block;margin:0 auto 2px}
 </section>
 
 <!-- PROTOKOL & TATA TERTIB -->
-<section id="protokol" class="bg-a">
+<section id="protokol" class="bg-b">
   <div class="wrap">
     <h2 class="title rv">Protokol &amp; Tata Tertib</h2>
     <svg class="leaf rv"><use href="#leaf"/></svg>
@@ -234,17 +262,23 @@ nav a svg{display:block;margin:0 auto 2px}
 </section>
 
 <!-- GALLERY -->
-<section id="galeri" class="bg-b">
+<section id="galeri" class="bg-a">
   <div class="wrap">
     <h2 class="title rv">Our Moment</h2>
     <svg class="leaf rv"><use href="#leaf"/></svg>
     <div class="gallery rv" id="galleryGrid"></div>
   </div>
 </section>
-<div id="lightbox"><img alt=""></div>
+<div id="lightbox">
+  <button class="lb-btn" id="lbClose" aria-label="Tutup">&times;</button>
+  <button class="lb-btn" id="lbPrev" aria-label="Sebelumnya">&#8249;</button>
+  <img alt="">
+  <button class="lb-btn" id="lbNext" aria-label="Berikutnya">&#8250;</button>
+  <div id="lbCount"></div>
+</div>
 
 <!-- GIFT -->
-<section id="hadiah" class="bg-a">
+<section id="hadiah" class="bg-b">
   <div class="wrap">
     <h2 class="title rv">Wedding Gift</h2>
     <svg class="leaf rv"><use href="#leaf"/></svg>
@@ -260,7 +294,7 @@ nav a svg{display:block;margin:0 auto 2px}
 </section>
 
 <!-- UCAPAN & RSVP -->
-<section id="ucapan" class="bg-b">
+<section id="ucapan" class="bg-a">
   <div class="wrap">
     <h2 class="title rv">Ucapan &amp; Doa</h2>
     <svg class="leaf rv"><use href="#leaf"/></svg>
@@ -284,12 +318,17 @@ nav a svg{display:block;margin:0 auto 2px}
   </div>
 </section>
 
-<footer class="bg-a">
+<footer class="bg-b">
   <svg class="leaf"><use href="#leaf"/></svg>
   <p>Atas kehadiran dan doa restu Bapak/Ibu/Saudara/i sekalian, kami mengucapkan terima kasih.</p>
   <p style="margin-top:10px;font-weight:600">Wassalamualaikum Wr. Wb.</p>
   <p style="margin-top:18px">Kami yang berbahagia,</p>
   <p class="names"><span data-bind="wanitaPanggilan"></span> &amp; <span data-bind="priaPanggilan"></span></p>
+  <p class="credit">
+    Dibuat Oleh 33 Netz (Muhammad Defval)<br>
+    Info Pemesanan Undangan Cetak &amp; Digital :
+    <a href="https://wa.me/6282120613014" target="_blank" rel="noopener">082120613014</a>
+  </p>
 </footer>
 
 <nav id="nav">
@@ -303,6 +342,7 @@ nav a svg{display:block;margin:0 auto 2px}
 
 <button id="music" aria-label="Musik"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg></button>
 <audio id="bgm" preload="auto"></audio>
+<canvas id="leaves"></canvas>
 
 <script>
 /* =====================================================
@@ -311,12 +351,25 @@ nav a svg{display:block;margin:0 auto 2px}
 const CONFIG = {
   wanitaPanggilan: "Intan",
   priaPanggilan:   "Rohmat",
-  wanitaLengkap:   "Nama Lengkap, Gelar",
-  priaLengkap:     "Nama Lengkap, Gelar / Pangkat",
-  wanitaOrtu: "Putri dari Bapak ... dan Ibu ...",
-  priaOrtu:   "Putra dari Bapak ... dan Ibu ...",
+  wanitaLengkap:   "Siti Intan Permatasari",
+  priaLengkap:     "Rohmat",
+  wanitaOrtu: "Putri kedua dari Bpk Nanang Subarna & Ibu Maesaroh (Ros)",
+  priaOrtu:   "Putra ketujuh dari Bpk Tarmidi & Ibu Uka",
   sosmedWanita: [ { label: "IG", url: "" }, { label: "FB", url: "" } ],   // url kosong = tidak ditampilkan
   sosmedPria:   [ { label: "IG", url: "" }, { label: "FB", url: "" } ],
+
+  turutMengundang: [
+    "Kel. Besar Bpk Usup (alm)",
+    "Kel. Besar Bpk Udin Saepudin (alm)",
+    "Bpk. Edi Sukawit (Ketua RW 08)",
+    "Bpk. Judani (Amang)",
+    "Bpk. Wahyudin",
+    "Ustadz Yadi Supriyadi",
+    "Bpk. Agus",
+    "Bpk. Wawan",
+    "AA Kuswara",
+    "Asep Ahmad"
+  ],
 
   // untuk countdown & kalender (ISO, WIB)
   acaraISO: "2026-11-21T08:00:00+07:00",
@@ -364,14 +417,13 @@ const CONFIG = {
 
   hadiahPengantar: "Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Jika memberi adalah ungkapan tanda kasih, Anda dapat memberi kado secara cashless.",
   rekening: [
-    { logo: "images/logo-bank.png",    bank: "Nama Bank", nomor: "0123456789",   an: "Atas Nama Pemilik" },
-    { logo: "images/logo-ewallet.png", bank: "E-Wallet",  nomor: "081234567890", an: "Atas Nama Pemilik" }
+    { logo: "images/logo-bank.png", bank: "Nama Bank", nomor: "1394150323", an: "Atas Nama Pemilik" }
   ],
-  alamatPenerima: "Nama Penerima",
-  alamatKado: "Alamat lengkap pengiriman hadiah",
+  alamatPenerima: "Siti Intan Permatasari",
+  alamatKado: "Leuwigajah, Kec. Cimahi Selatan, Kota Cimahi, Jawa Barat 40532",
 
   musik: "audio/audio.mp3",   // "" jika tanpa musik
-  musikMulai: 23,             // mulai dari detik ke-23 (juga dipakai saat lagu mengulang)
+  musikMulai: 20,             // mulai dari detik ke-20 (juga dipakai saat lagu mengulang)
   waRSVP: "62895707292277"    // tujuan WhatsApp untuk RSVP & ucapan (format 62..., tanpa 0 di depan)
 };
 
@@ -395,6 +447,9 @@ if (sl.length > 1) setInterval(() => { sl[si].classList.remove("on"); si = (si +
 const soc = (id, arr) => { $(id).innerHTML = arr.filter(x => x.url).map(x => `<a href="${x.url}" target="_blank" rel="noopener">${x.label}</a>`).join(""); };
 soc("#socWanita", CONFIG.sosmedWanita); soc("#socPria", CONFIG.sosmedPria);
 
+// turut mengundang
+$("#turutList").innerHTML = CONFIG.turutMengundang.map(n => `<li>${n}</li>`).join("");
+
 // acara
 $("#eventList").innerHTML = CONFIG.acara.map(a => `
   <div class="event frame sq rv">
@@ -414,9 +469,46 @@ $("#protoList").innerHTML = CONFIG.protokol.map((p, i) => `<div class="rule rv">
 
 // gallery + lightbox
 $("#galleryGrid").innerHTML = CONFIG.gallery.map((g, i) => `<img src="${g}" alt="Galeri ${i+1}" ${fb}>`).join("");
-const lb = $("#lightbox");
-$("#galleryGrid").addEventListener("click", e => { if (e.target.tagName === "IMG") { lb.querySelector("img").src = e.target.src; lb.classList.add("show"); } });
-lb.addEventListener("click", () => lb.classList.remove("show"));
+const lb = $("#lightbox"), lbImg = lb.querySelector("img"), lbCount = $("#lbCount");
+let li = 0;
+const lbShow = i => {
+  const n = CONFIG.gallery.length;
+  li = (i + n) % n;
+  lbImg.style.opacity = 0;
+  setTimeout(() => {
+    lbImg.src = $("#galleryGrid").children[li].src;
+    lbImg.style.transform = "none";
+    lbImg.style.opacity = 1;
+  }, 120);
+  lbCount.textContent = (li + 1) + " / " + n;
+};
+const lbOpen = i => { lb.classList.add("show"); lbImg.src = $("#galleryGrid").children[i].src; li = i; lbImg.style.opacity = 1; lbCount.textContent = (i + 1) + " / " + CONFIG.gallery.length; };
+const lbClose = () => lb.classList.remove("show");
+$("#galleryGrid").addEventListener("click", e => { if (e.target.tagName === "IMG") lbOpen(Array.from($("#galleryGrid").children).indexOf(e.target)); });
+$("#lbPrev").onclick = e => { e.stopPropagation(); lbShow(li - 1); };
+$("#lbNext").onclick = e => { e.stopPropagation(); lbShow(li + 1); };
+$("#lbClose").onclick = e => { e.stopPropagation(); lbClose(); };
+lb.addEventListener("click", e => { if (e.target === lb) lbClose(); });
+document.addEventListener("keydown", e => {
+  if (!lb.classList.contains("show")) return;
+  if (e.key === "ArrowLeft") lbShow(li - 1);
+  else if (e.key === "ArrowRight") lbShow(li + 1);
+  else if (e.key === "Escape") lbClose();
+});
+// geser kiri-kanan di layar sentuh
+let tx = 0, ty = 0, dragging = false;
+lb.addEventListener("touchstart", e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; dragging = true; }, { passive: true });
+lb.addEventListener("touchmove", e => {
+  if (!dragging) return;
+  const dx = e.touches[0].clientX - tx, dy = e.touches[0].clientY - ty;
+  if (Math.abs(dx) > Math.abs(dy)) lbImg.style.transform = `translateX(${dx}px)`;
+}, { passive: true });
+lb.addEventListener("touchend", e => {
+  if (!dragging) return; dragging = false;
+  const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) lbShow(dx < 0 ? li + 1 : li - 1);
+  else lbImg.style.transform = "none";
+});
 
 // rekening
 $("#bankList").innerHTML = CONFIG.rekening.map(r => `
@@ -454,6 +546,38 @@ $("#rsvpForm").onsubmit = e => {
   toWA(`Konfirmasi kehadiran\nNama: ${$("#rName").value.trim()}\nStatus: ${$("#rStatus").value}\nJumlah tamu: ${$("#rJumlah").value}`);
 };
 
+// daun jatuh
+const lc = $("#leaves"), lx = lc.getContext("2d");
+let LW = 0, LH = 0, leaves = [], leafOn = false;
+const leafResize = () => { const d = Math.min(window.devicePixelRatio || 1, 2); LW = innerWidth; LH = innerHeight; lc.width = LW * d; lc.height = LH * d; lx.setTransform(d, 0, 0, d, 0, 0); };
+const leafNew = init => ({
+  x: Math.random() * LW, y: init ? Math.random() * LH : -20,
+  s: 7 + Math.random() * 9, vy: .35 + Math.random() * .5,
+  sw: Math.random() * 6.28, sa: .3 + Math.random() * .6,
+  r: Math.random() * 6.28, vr: (Math.random() - .5) * .025,
+  c: ["155,173,140", "207,220,195", "201,178,124"][Math.floor(Math.random() * 3)],
+  o: .35 + Math.random() * .4
+});
+function leafLoop(){
+  lx.clearRect(0, 0, LW, LH);
+  leaves.forEach(l => {
+    l.sw += .015; l.x += Math.sin(l.sw) * l.sa; l.y += l.vy; l.r += l.vr;
+    if (l.y > LH + 20) Object.assign(l, leafNew(false), { x: Math.random() * LW });
+    lx.save(); lx.translate(l.x, l.y); lx.rotate(l.r); lx.globalAlpha = l.o; lx.fillStyle = `rgb(${l.c})`;
+    lx.beginPath(); lx.moveTo(0, -l.s); lx.quadraticCurveTo(l.s * .8, -l.s * .1, 0, l.s); lx.quadraticCurveTo(-l.s * .8, -l.s * .1, 0, -l.s); lx.fill();
+    lx.strokeStyle = "rgba(31,44,33,.35)"; lx.lineWidth = .8; lx.beginPath(); lx.moveTo(0, -l.s); lx.lineTo(0, l.s); lx.stroke();
+    lx.restore();
+  });
+  requestAnimationFrame(leafLoop);
+}
+function startLeaves(){
+  if (leafOn || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  leafOn = true; leafResize();
+  leaves = Array.from({ length: innerWidth < 600 ? 14 : 24 }, () => leafNew(true));
+  leafLoop();
+}
+addEventListener("resize", () => { if (leafOn) leafResize(); });
+
 // buka undangan + musik
 const bgm = $("#bgm"), mbtn = $("#music");
 if (CONFIG.musik) bgm.src = CONFIG.musik;
@@ -468,6 +592,7 @@ $("#openBtn").onclick = () => {
     bgm.play().then(() => mbtn.classList.add("playing")).catch(() => {});
   }
   window.scrollTo(0, 0);
+  startLeaves();
 };
 mbtn.onclick = () => { if (bgm.paused) { bgm.play(); mbtn.classList.add("playing"); } else { bgm.pause(); mbtn.classList.remove("playing"); } };
 
