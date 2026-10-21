@@ -76,6 +76,7 @@ section{padding:72px 24px;text-align:center;position:relative}
 .person{margin:36px 0}
 .person .photo{width:240px;height:310px;margin:0 auto 18px;border:1px solid var(--sage);border-radius:120px 120px 14px 14px;padding:8px}
 .person .photo img{width:100%;height:100%;object-fit:cover;border-radius:112px 112px 8px 8px}
+.person .photo img.pos-pria{object-position:center 15%}
 .person h3{font-size:1.45rem;margin-bottom:2px}
 .person .role{font-size:.78rem;letter-spacing:.25em;text-transform:uppercase;color:var(--sage);margin-bottom:6px}
 .socials{display:flex;gap:10px;justify-content:center;margin-top:10px}
@@ -224,7 +225,7 @@ nav a svg{display:block;margin:0 auto 2px}
     </div>
     <div class="amp script rv">&amp;</div>
     <div class="person rv">
-      <div class="photo"><img data-src="mempelaiPria" alt="Mempelai pria"></div>
+      <div class="photo"><img class="pos-pria" data-src="mempelaiPria" alt="Mempelai pria"></div>
       <p class="role">Mempelai Pria</p>
       <h3 data-bind="priaLengkap"></h3>
       <p data-bind="priaOrtu"></p>
@@ -417,7 +418,7 @@ const CONFIG = {
 
   hadiahPengantar: "Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Jika memberi adalah ungkapan tanda kasih, Anda dapat memberi kado secara cashless.",
   rekening: [
-    { logo: "images/logo-bank.png", bank: "Nama Bank", nomor: "1394150323", an: "Siti Intan Permatasari" }
+    { logo: "images/logo-bank.png", bank: "Nama Bank", nomor: "1394150323", an: "Atas Nama Pemilik" }
   ],
   alamatPenerima: "Siti Intan Permatasari",
   alamatKado: "Leuwigajah, Kec. Cimahi Selatan, Kota Cimahi, Jawa Barat 40532",
